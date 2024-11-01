@@ -1,19 +1,38 @@
 import './App.css'
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Home from "./components/Home/Home.lazy.tsx";
+import Search from "./components/Search/Search.lazy.tsx";
+import Faq from "./components/Faq/Faq.lazy.tsx";
+import Directory from "./components/Directory/Directory.lazy.tsx";
 
 function App() {
 
   const router = createBrowserRouter([
     {
       path: "/",
-     element: <Home />
+      element: <Home/>
+    },
+    {
+      path: "/search",
+      element: <Search/>
+    },
+    {
+      path: "/faq",
+      element: <Faq/>
+    },
+    {
+      path: "/directory",
+      element: <Directory/>
+    },
+    {
+      path: "*",
+      element: <h1>Nooo mi compa esa página no existe ¡Mándela alv!</h1>
     }
   ]);
 
   return (
     <>
-      <RouterProvider router={router} />
+      <RouterProvider router={router}/>
     </>
   )
 }
