@@ -3,6 +3,8 @@ import {Card} from "primereact/card";
 import {Toast} from "primereact/toast";
 import {InputText} from "primereact/inputtext";
 import {Button} from "primereact/button";
+import {Transcription} from "./model/Transcription.ts";
+import {Paginator} from "primereact/paginator";
 
 
 interface SearchProps {
@@ -11,9 +13,22 @@ interface SearchProps {
 const Search: FC<SearchProps> = () => {
   const toast = useRef<Toast>(null);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const [matches, setMatches] = useState<Transcription[]>([]);
+  const [first, setFirst] = useState(0);
+  const [rows, setRows] = useState(10);
+
+
   const searchForText = () => {
     if (searchQuery.length > 4) {
-      alert('buscando...')
+      fetch('http://localhost:8081/api/video-transcription', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({title: searchQuery}),
+      }).then(response => response.json())
+        .then(data => setMatches(data))
     } else {
       toast.current?.show({
         severity: 'warn',
@@ -22,6 +37,11 @@ const Search: FC<SearchProps> = () => {
       });
     }
   }
+
+  const onPageChange = (event) => {
+    setFirst(event.first);
+    setRows(event.rows);
+  };
 
   return (
     <Card>
@@ -37,6 +57,65 @@ const Search: FC<SearchProps> = () => {
         <span>
           <Button label="Buscar" onClick={searchForText}/>
         </span>
+      </div>
+
+      {matches && matches.length > 0 && (
+        <>
+          <div className="flex flex-col card-container">
+            <Paginator first={first} rows={rows} totalRecords={matches.length} rowsPerPageOptions={[10, 20, 30]}
+                       onPageChange={onPageChange}/>
+            <Card header={matches[first].video_title}>
+              {matches[first].transcript.map((t, index) => (
+                <div key={index}>
+                  {t.text}&nbsp;
+                  <a href={t.url} target="_blank">Abrir</a>
+                </div>
+              ))}
+            </Card>
+          </div>
+
+        </>
+      )}
+
+      <br/>
+      <p>
+        Para realizar búsquedas más efectivas, le proporcionamos algunas herramientas útiles. Si desea
+        encontrar algo específico, como una frase póngalo entre comillas. También puede usar
+        <code>-</code> para que no salga una palabra. Por ejemplo:
+        <br/>
+        Si desea buscar información acerca de la mujer del proceso, pero que <b>NO</b> tenga exactamente
+        la palabra <code>seas</code>
+        como en la frase "no seas la mujer del proceso" puede hacer la siguiente consulta
+      </p>
+      <pre>"mujer del proceso" -seas</pre>
+      <p>
+        Este método buscará la frase exacta "mujer del proceso", pero omitirá los resultados que
+        incluyan la palabra "<code>seas</code>". Como resultado, obtendrá información como:
+      </p>
+      <blockquote>
+        <i>la famosa <u>mujer del proceso</u> que al final</i>
+      </blockquote>
+      <p>Supongamos que busca información sobre cómo regresar del Amazon:</p>
+      <pre>"amazon" "volver"</pre>
+      <p>
+        Con esta consulta, encontrará resultados relacionados tanto con "Amazon" como con "volver". Por
+        ejemplo:
+      </p>
+      <blockquote>
+        <i><u>Amazon</u> tienes que <u>volver</u> a romper</i>
+      </blockquote>
+      <p>
+        Si prefiere una búsqueda más amplia, sin comillas, se mostrarán resultados que contengan
+        <b>al menos una</b> de las palabras que ingresó. Por ejemplo:
+      </p>
+      <pre>estoico estoicismo</pre>
+      <p>
+        Esta búsqueda incluirá información sobre "estoico" o "estoicismo". Así, podrá explorar diversas
+        opciones y encontrar lo que necesita de manera más precisa.
+      </p>
+      <div className="grid grid-cols-2 gap-1.5">
+        <Card>Ad1</Card>
+        <Card>Ad2</Card>
       </div>
     </Card>
   );
