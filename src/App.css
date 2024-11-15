@@ -1,0 +1,15 @@
+.p-card {
+    background: radial-gradient(circle at top right, #528cd563, #4374af4f, #355b8aa1),
+    radial-gradient(circle at top right, #bbd8fd70, #60a5fa4d, rgb(0 0 0 / 17%));
+    background-blend-mode: luminosity;
+}
+
+.p-card-subtitle {
+    color: var(--text-color-secondary);
+    text-shadow: 2px 1px var(--maskbg);
+}
+
+body{
+    background: url("public/peacuful male warrior.webp");
+    background-size: cover;
+}
