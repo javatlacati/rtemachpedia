@@ -44,7 +44,7 @@ const Home: FC<HomeProps> = () => {
               ></span>
               </div>
               <div>
-                <Button label="Cantares de Gest" text outlined onClick={() => handleNavigateToURL('/lyrics')}
+                <Button label="Cantares de Gesta" text outlined onClick={() => handleNavigateToURL('/lyrics')}
                         tooltip="Música" tooltipOptions={{showDelay: 1000, hideDelay: 300}}/>
                 &nbsp;<span
                 className="pi pi-question-circle"

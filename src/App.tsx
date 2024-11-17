@@ -1,9 +1,11 @@
 import './App.css'
+import './flags.css'
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Home from "./components/Home/Home.lazy.tsx";
 import Search from "./components/Search/Search.lazy.tsx";
 import Faq from "./components/Faq/Faq.lazy.tsx";
 import Directory from "./components/Directory/Directory.lazy.tsx";
+import SongList from "./components/SongList/SongList.lazy.tsx";
 
 function App() {
 
@@ -23,6 +25,10 @@ function App() {
     {
       path: "/directory",
       element: <Directory/>
+    },
+    {
+      path: "/lyrics",
+      element: <SongList/>
     },
     {
       path: "*",
