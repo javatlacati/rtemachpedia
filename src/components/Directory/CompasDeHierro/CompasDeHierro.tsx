@@ -10,7 +10,7 @@ import {MenuItem} from "primereact/menuitem";
 import {SelectItemGroupThreeValues} from "./model/SelectItemGroupThreeValues.ts";
 import {MapContainer, Marker, Popup, TileLayer, useMap} from "react-leaflet";
 import {CellLocation} from "./model/CellLocation.ts";
-import {LatLngExpression} from "leaflet";
+import {Icon, LatLngExpression, MarkerOptions} from "leaflet";
 
 interface CompasDeHierroProps {
 }
@@ -1437,7 +1437,7 @@ const CompasDeHierro: FC<CompasDeHierroProps> = () => {
   const [selectedCity, setSelectedCity] = useState<City | null>()
   const cm = useRef<ContextMenu>(null);
   const toast = useRef<Toast>(null);
-  let [centeredPoint, setCenteredPoint] = useState<LatLngExpression>([19.456492, -99.1636326]);
+  const [centeredPoint, setCenteredPoint] = useState<LatLngExpression>([19.456492, -99.1636326]);
 
   const redes: MenuItem[] = [
     {
@@ -1561,26 +1561,33 @@ const CompasDeHierro: FC<CompasDeHierroProps> = () => {
                 }
               }
             }
-            return location.details.map((detail) => <Marker key={location.cell_name} position={detail.coords}>
-              <Popup>
-                <div className="flex flex-col gap-2">
-                  <div className="font-bold">{detail.label}</div>
-                  <div>{detail.street}</div>
-                  <div>
-                    <a href={`https://www.instagram.com/${location.cell_name}`} target="_blank">
-                      <span className="pi pi-instagram"/>
-                    </a>
-                    {fb && (
-                      <>
-                        &nbsp;<a href={`https://www.facebook.com/${fb}`} target="_blank">
-                        <span className="pi pi-facebook"/>
+            return location.details.map((detail) => {
+              const myIcon  = new Icon({
+                iconUrl: '/marker-icon.png',
+                iconRetinaUrl: '/marker-icon-2x.png',
+                iconSize: [45,60]
+              })
+              return <Marker key={location.cell_name} position={detail.coords} icon={myIcon}>
+                <Popup>
+                  <div className="flex flex-col gap-2">
+                    <div className="font-bold">{detail.label}</div>
+                    <div>{detail.street}</div>
+                    <div>
+                      <a href={`https://www.instagram.com/${location.cell_name}`} target="_blank">
+                        <span className="pi pi-instagram"/>
                       </a>
-                      </>
-                    )}
+                      {fb && (
+                        <>
+                          &nbsp;<a href={`https://www.facebook.com/${fb}`} target="_blank">
+                          <span className="pi pi-facebook"/>
+                        </a>
+                        </>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </Popup>
-            </Marker>)
+                </Popup>
+              </Marker>;
+            })
           })}
           {voc}
         </MapContainer>
