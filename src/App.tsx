@@ -8,6 +8,7 @@ import Search from "./components/Search/Search.lazy.tsx";
 import Faq from "./components/Faq/Faq.lazy.tsx";
 import Directory from "./components/Directory/Directory.lazy.tsx";
 import SongList from "./components/SongList/SongList.lazy.tsx";
+import TrophyRoom from "./components/TrophyRoom/TrophyRoom.lazy.tsx";
 
 function App() {
 
@@ -31,6 +32,9 @@ function App() {
     {
       path: "/lyrics",
       element: <SongList/>
+    }, {
+      path: '/achievements',
+      element: <TrophyRoom/>
     },
     {
       path: "*",
