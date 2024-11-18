@@ -1,8 +1,9 @@
-import React, { lazy, Suspense } from 'react';
+import { lazy, Suspense } from 'react';
+import {PianoKeyboardProps} from "./PianoKeyboard.tsx";
 
 const LazyPianoKeyboard = lazy(() => import('./PianoKeyboard'));
 
-const PianoKeyboard = (props: JSX.IntrinsicAttributes & { children?: React.ReactNode; }) => (
+const PianoKeyboard = (props: PianoKeyboardProps) => (
   <Suspense fallback={null}>
     <LazyPianoKeyboard {...props} />
   </Suspense>

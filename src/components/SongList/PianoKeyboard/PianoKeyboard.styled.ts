@@ -9,6 +9,18 @@ export const PianoKeyboardWrapper = styled.div`
     position: relative;
     display: flex;
     justify-content: flex-start;
+    
+    > div.active::after{
+        content: "";
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background-color: red;
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
 `;
 
 
