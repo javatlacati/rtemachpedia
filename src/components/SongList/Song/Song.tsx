@@ -4,6 +4,7 @@ import {Lyric} from "../model/Lyric.ts";
 import {Card} from "primereact/card";
 import {Chord, Interval} from "@tonaljs/tonal";
 import {InputNumber, InputNumberValueChangeEvent} from "primereact/inputnumber";
+import ReactPlayer from "react-player";
 
 export interface SongProps {
   song: Lyric
@@ -18,6 +19,7 @@ const Song: FC<SongProps> = ({song}) => {
         <Card header={song?.title}>
           {song?.authors?.join(', ')}
           <br/>
+          <ReactPlayer url={'https://www.youtube.com/watch?v=' + song?.video?.id} width="100%"/>
           <br/>
           <Card header="Transponer">
             Semitonos: <InputNumber value={semitones} mode="decimal"
