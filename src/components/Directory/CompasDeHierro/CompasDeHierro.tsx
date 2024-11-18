@@ -8,10 +8,18 @@ import {City} from "./model/city.ts";
 import {ContextMenu} from "primereact/contextmenu";
 import {MenuItem} from "primereact/menuitem";
 import {SelectItemGroupThreeValues} from "./model/SelectItemGroupThreeValues.ts";
-import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
+import {MapContainer, Marker, Popup, TileLayer, useMap} from "react-leaflet";
 import {CellLocation} from "./model/CellLocation.ts";
+import {LatLngExpression} from "leaflet";
 
 interface CompasDeHierroProps {
+}
+
+const SetViewOnClick = ({coords}: { coords: LatLngExpression }) => {
+  const map = useMap();
+  map.panTo(coords);
+
+  return null;
 }
 
 const CompasDeHierro: FC<CompasDeHierroProps> = () => {
@@ -1429,6 +1437,7 @@ const CompasDeHierro: FC<CompasDeHierroProps> = () => {
   const [selectedCity, setSelectedCity] = useState<City | null>()
   const cm = useRef<ContextMenu>(null);
   const toast = useRef<Toast>(null);
+  let [centeredPoint, setCenteredPoint] = useState<LatLngExpression>([19.456492, -99.1636326]);
 
   const redes: MenuItem[] = [
     {
@@ -1464,6 +1473,27 @@ const CompasDeHierro: FC<CompasDeHierroProps> = () => {
     }
   }
 
+
+  const voc = (<SetViewOnClick
+    coords={centeredPoint}
+  />)
+
+  /**
+   * Shows the location of the selected city.
+   * The instagram account of the LCDH cell is considered as the cell name.
+   * The first location associated with the LCDH cell is considered as the main and therefore shown.
+   */
+  const muestraUbicacion = () => {
+    const latlng: LatLngExpression | undefined = locations.find(
+      (cellLocation) => cellLocation.cell_name === selectedCity?.value,
+    )?.details[0].coords;
+    if (latlng) {
+      setCenteredPoint(latlng)
+    } else {
+      console.warn('La célula de los compas de hierro no tiene sede aún');
+    }
+  }
+
   const groupTemplate = (option: any) => {
     return (
       <div className="flex align-items-center gap-2">
@@ -1474,88 +1504,89 @@ const CompasDeHierro: FC<CompasDeHierroProps> = () => {
     );
   };
 
-  return (
-    <CompasDeHierroWrapper>
-      <Card header="Compas de Hierro"
-            subTitle="Los compas de hierro es una comunidad liderada por varones cuyos valores son la fortaleza y la hermandad.">
-        <Toast ref={toast}/>
-        <blockquote>
-          Necesitamos gente de nuestra edad para convivir, necesitamos convivir con gente de nuestra edad
-          para motivarnos, para impulsarnos para exigirnos. Necesitamos ayudar a la comunidad, necesitamos
-          recibir, y necesitamos darle.<br/>
-          Gente más joven que yo que necesita que le enseñe, que necesita que la guíe con lo que yo sé
-          hacer, y si no la puedo ayudar entonces la canalizo, si yo no puedo resolver el problema lo
-          canalizo porque sé con quién dentro de la comunidad, para eso son los compas de hierro. Mi sueño
-          es poder generar una comunidad que se sostenga a sí misma - El Temach
-        </blockquote>
-        <br/>
-        <Card header="Cuentas oficiales" subTitle="Las cuentas verificadas aparecen con el símbolo ✓">
-          <div className="card flex justify-content-center">
-            <ContextMenu ref={cm} model={redes} breakpoint="767px"/>
-            <ListBox
-              value={selectedCity} filter
-              onChange={(e) => {
-                const aCity = groupedCities.flatMap(group => group.items).find(value => value.label == e.value) as SelectItemThreeValuesImpl | null;
-                if (aCity)
-                  setSelectedCity(aCity);
-              }}
-              options={groupedCities}
-              optionLabel="label"
-              optionGroupLabel="label"
-              optionGroupChildren="items"
-              optionValue="label"
-              className="w-full md:w-14rem"
-              listStyle={{maxHeight: '250px'}}
-              optionGroupTemplate={groupTemplate}
-              onContextMenu={(e) => cm.current?.show(e)}
-            >
-            </ListBox>
 
-          </div>
-        </Card>
-        <br/>
-        <Card header="Sedes de entrenamiento">
-          <MapContainer center={[19.456492, -99.1636326]} zoom={16} scrollWheelZoom={false}>
-            <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            {locations.map((location) => {
-              let fb: string | undefined;
-              for (const group of groupedCities) {
-                for (const item of group.items) {
-                  if (item.value === location.cell_name) {
-                    fb = item.value1;
-                    break;
-                  }
+  return <CompasDeHierroWrapper>
+    <Card header="Compas de Hierro"
+          subTitle="Los compas de hierro es una comunidad liderada por varones cuyos valores son la fortaleza y la hermandad.">
+      <Toast ref={toast}/>
+      <blockquote>
+        Necesitamos gente de nuestra edad para convivir, necesitamos convivir con gente de nuestra edad
+        para motivarnos, para impulsarnos para exigirnos. Necesitamos ayudar a la comunidad, necesitamos
+        recibir, y necesitamos darle.<br/>
+        Gente más joven que yo que necesita que le enseñe, que necesita que la guíe con lo que yo sé
+        hacer, y si no la puedo ayudar entonces la canalizo, si yo no puedo resolver el problema lo
+        canalizo porque sé con quién dentro de la comunidad, para eso son los compas de hierro. Mi sueño
+        es poder generar una comunidad que se sostenga a sí misma - El Temach
+      </blockquote>
+      <br/>
+      <Card header="Cuentas oficiales" subTitle="Las cuentas verificadas aparecen con el símbolo ✓">
+        <div className="card flex justify-content-center">
+          <ContextMenu ref={cm} model={redes} breakpoint="767px"/>
+          <ListBox
+            value={selectedCity} filter
+            onChange={(e) => {
+              const aCity = groupedCities.flatMap(group => group.items).find(value => value.label == e.value) as SelectItemThreeValuesImpl | null;
+              if (aCity)
+                setSelectedCity(aCity);
+              muestraUbicacion()
+            }}
+            options={groupedCities}
+            optionLabel="label"
+            optionGroupLabel="label"
+            optionGroupChildren="items"
+            optionValue="label"
+            className="w-full md:w-14rem"
+            listStyle={{maxHeight: '250px'}}
+            optionGroupTemplate={groupTemplate}
+            onContextMenu={(e) => cm.current?.show(e)}
+          >
+          </ListBox>
+
+        </div>
+      </Card>
+      <br/>
+      <Card header="Sedes de entrenamiento">
+        <MapContainer center={[19.456492, -99.1636326]} zoom={16} scrollWheelZoom={false}>
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {locations.map((location) => {
+            let fb: string | undefined;
+            for (const group of groupedCities) {
+              for (const item of group.items) {
+                if (item.value === location.cell_name) {
+                  fb = item.value1;
+                  break;
                 }
               }
-              return location.details.map((detail) => (
-                <Marker key={location.cell_name} position={detail.coords}>
-                  <Popup>
-                    <div className="flex flex-col gap-2">
-                      <div className="font-bold">{detail.label}</div>
-                      <div>{detail.street}</div>
-                      <div>
-                        <a href={`https://www.instagram.com/${location.cell_name}`} target="_blank">
-                          <span className="pi pi-instagram"/>
-                        </a>
-                        {fb && (
-                          <a href={`https://www.facebook.com/${fb}`} target="_blank">
-                            <span className="pi pi-facebook"/>
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  </Popup>
-                </Marker>
-              ))
-            })}
-          </MapContainer>
-        </Card>
+            }
+            return location.details.map((detail) => <Marker key={location.cell_name} position={detail.coords}>
+              <Popup>
+                <div className="flex flex-col gap-2">
+                  <div className="font-bold">{detail.label}</div>
+                  <div>{detail.street}</div>
+                  <div>
+                    <a href={`https://www.instagram.com/${location.cell_name}`} target="_blank">
+                      <span className="pi pi-instagram"/>
+                    </a>
+                    {fb && (
+                      <>
+                        &nbsp;<a href={`https://www.facebook.com/${fb}`} target="_blank">
+                        <span className="pi pi-facebook"/>
+                      </a>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </Popup>
+            </Marker>)
+          })}
+          {voc}
+        </MapContainer>
       </Card>
-    </CompasDeHierroWrapper>
-  );
+    </Card>
+  </CompasDeHierroWrapper>;
 };
 
 export default CompasDeHierro;
