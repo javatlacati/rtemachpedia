@@ -1,6 +1,7 @@
 import {FC} from 'react';
 import {SongListWrapper} from './SongList.styled';
 import {Lyric} from "./model/Lyric.ts";
+import Song from "./Song/Song.lazy.tsx";
 
 interface SongListProps {
 }
@@ -779,6 +780,8 @@ const SongList: FC<SongListProps> = () => {
           <li key={index}>
             <a href="/lyrics/song">{song.title}</a> -
             {song.authors.join(',')}
+            <br/>
+            <Song song={song}/>
           </li>
         ))}
       </SongListWrapper>
