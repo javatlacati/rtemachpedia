@@ -13,3 +13,8 @@ body{
     background: url("public/peacuful male warrior.webp");
     background-size: cover;
 }
+
+.leaflet-container{
+    height: 500px;
+    width: 100%;
+}

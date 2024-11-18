@@ -1,5 +1,7 @@
 import './App.css'
 import './flags.css'
+import "leaflet/dist/leaflet.css"
+import "leaflet/dist/leaflet.js"
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Home from "./components/Home/Home.lazy.tsx";
 import Search from "./components/Search/Search.lazy.tsx";
