@@ -10,6 +10,7 @@ import {Dropdown} from "primereact/dropdown";
 import {Button} from "primereact/button";
 import {OverlayPanel} from "primereact/overlaypanel";
 import Chord from '@tombatossals/react-chords/lib/Chord';
+import Guitar from '@tombatossals/chords-db/lib/guitar.json';
 
 export interface SongProps {
   song: Lyric
@@ -22,6 +23,7 @@ const Song: FC<SongProps> = ({song}) => {
     const op = useRef(null);
 
     const [activeNotes, setActiveNotes] = useState({});
+    const [currentGuitarChord, setCurrentGuitarChord] = useState(null);
     const instruments = [
       {name: 'Piano', value: 'piano'},
       {name: 'Guitar', value: 'guitar'},
@@ -82,6 +84,29 @@ const Song: FC<SongProps> = ({song}) => {
       }, {});
     }
 
+    function mapGuitarChordFromChordName(transposed: string) {
+      let [tonic, type] = KChord.tokenize(transposed);
+      // console.log(tonic.replace(
+      //   "#",
+      //   "sharp"
+      // ), type.replace("#", "sharp")
+      //   .replace("/", "_") || 'major');
+      if (transposed.startsWith("G#")) {
+        tonic = "A";
+        type = type.replace('#', "b");
+      }
+
+      const tonicColecction = Guitar.chords[`${tonic.replace(
+        "#",
+        "sharp"
+      )}`] as Array<any>;
+      // console.log(JSON.stringify(tonicColecction));
+      const targetChord = tonicColecction.find(value => value.suffix === (type.replace("#", "sharp")
+        .replace("/", "_") || 'major'))
+      //console.log(JSON.stringify(targetChord));
+      return targetChord.positions[0]
+    }
+
     return (
       <SongWrapper>
         <Card header={song?.title}>
@@ -114,16 +139,19 @@ const Song: FC<SongProps> = ({song}) => {
                               const transposed = KChord.transpose(line.chordName, Interval.fromSemitones(semitones));
                               return (
                                 <span key={'line_' + lineIndex}>
-                                {'.'.repeat(line.spacesBefore)}<Button text
-                                                                       onClick={(e) => {
-                                                                         if ('piano' === instrumentName)
-                                                                           setActiveNotes(mapNotesToActive(transposed))
-                                                                         if (instrumentName !== null)
-                                                                           op.current?.toggle(e);
-                                                                       }}>{transposed}</Button>
+                                {'.'.repeat(line.spacesBefore)}<Button
+                                  onClick={(e) => {
+                                    if ('piano' === instrumentName)
+                                      setActiveNotes(mapNotesToActive(transposed))
+                                    if ('guitar' === instrumentName)
+                                      setCurrentGuitarChord(mapGuitarChordFromChordName(transposed) || myChord);
+                                    if (instrumentName !== null)
+                                      op.current?.toggle(e);
+                                  }} text>{transposed}</Button>
                                   <OverlayPanel ref={op}>
                                     {'guitar' === instrumentName &&
-                                        <Chord instrument={instrument} chord={myChord} lite={false}/>}
+                                        <Chord instrument={instrument} chord={currentGuitarChord}
+                                               lite={false}/>}
                                     {'piano' === instrumentName && <PianoKeyboard
                                         activeNotes={activeNotes}/>}
                                   </OverlayPanel></span>

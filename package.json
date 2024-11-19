@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tombatossals/chords-db": "^0.5.1",
     "@tombatossals/react-chords": "^0.2.10",
     "@tonaljs/tonal": "^4.10.0",
     "leaflet": "^1.9.4",
