@@ -20,7 +20,7 @@ const Song: FC<SongProps> = ({song}) => {
 
     const [semitones, setSemitones] = useState(0);
     const [instrumentName, setInstrumentName] = useState(null);
-    const op = useRef(null);
+    const op = useRef<OverlayPanel>(null);
 
     const [activeNotes, setActiveNotes] = useState({});
     const [currentGuitarChord, setCurrentGuitarChord] = useState(null);

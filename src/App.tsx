@@ -10,12 +10,17 @@ import Directory from "./components/Directory/Directory.lazy.tsx";
 import SongList from "./components/SongList/SongList.lazy.tsx";
 import TrophyRoom from "./components/TrophyRoom/TrophyRoom.lazy.tsx";
 import LibraryDashboard from "./components/LibraryDashboard/LibraryDashboard.lazy.tsx";
+import SignIn from "./components/SignIn/SignIn.lazy.tsx";
 
 function App() {
 
   const router = createBrowserRouter([
     {
       path: "/",
+      element: <SignIn/>
+    },
+    {
+      path: "/home",
       element: <Home/>
     },
     {
