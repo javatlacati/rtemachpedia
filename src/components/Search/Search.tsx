@@ -3,8 +3,9 @@ import {Card} from "primereact/card";
 import {Toast} from "primereact/toast";
 import {InputText} from "primereact/inputtext";
 import {Button} from "primereact/button";
-import {Transcription} from "./model/Transcription.ts";
 import {Paginator} from "primereact/paginator";
+import {useTemachpediaState} from "../../zustand/store.ts";
+import axios from "axios";
 
 
 interface SearchProps {
@@ -14,21 +15,21 @@ const Search: FC<SearchProps> = () => {
   const toast = useRef<Toast>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const [matches, setMatches] = useState<Transcription[]>([]);
+  const matches = useTemachpediaState(state => state.matches);
+  const setMatches = useTemachpediaState(state => state.setMatches);
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(10);
+  const [isLoading, setIsLoading] = useState(false);
 
 
   const searchForText = () => {
     if (searchQuery.length > 4) {
-      fetch('http://localhost:8081/api/video-transcription', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({title: searchQuery}),
-      }).then(response => response.json())
-        .then(data => setMatches(data))
+      setIsLoading(true);
+      axios.post('http://localhost:8081/api/video-transcription', {title: searchQuery})
+        .then(response => {
+          setMatches(response.data || []);
+          setIsLoading(false);
+        })
     } else {
       toast.current?.show({
         severity: 'warn',
@@ -52,10 +53,12 @@ const Search: FC<SearchProps> = () => {
         <InputText value={searchQuery}
                    className="w-full pl-8"
                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)} minLength={5}
-                   maxLength={35}/>
+                   maxLength={35}
+                   disabled={isLoading}
+        />
         </span>
         <span>
-          <Button label="Buscar" onClick={searchForText}/>
+          <Button label="Buscar" onClick={searchForText} loading={isLoading}/>
         </span>
       </div>
 

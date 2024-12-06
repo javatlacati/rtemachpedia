@@ -11,6 +11,7 @@ import SongList from "./components/SongList/SongList.lazy.tsx";
 import TrophyRoom from "./components/TrophyRoom/TrophyRoom.lazy.tsx";
 import LibraryDashboard from "./components/LibraryDashboard/LibraryDashboard.lazy.tsx";
 import SignIn from "./components/SignIn/SignIn.lazy.tsx";
+import Song from "./components/SongList/Song/Song.lazy.tsx";
 
 function App() {
 
@@ -38,6 +39,9 @@ function App() {
     {
       path: "/lyrics",
       element: <SongList/>
+    },{
+      path: "/lyrics/song/:id",
+      element: <Song/>
     }, {
       path: '/achievements',
       element: <TrophyRoom/>

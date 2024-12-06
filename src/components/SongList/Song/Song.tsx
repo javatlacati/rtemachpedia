@@ -1,6 +1,5 @@
 import {FC, useRef, useState} from 'react';
 import {SongWrapper} from './Song.styled';
-import {Lyric} from "../model/Lyric.ts";
 import {Card} from "primereact/card";
 import {Chord as KChord, Interval} from "@tonaljs/tonal";
 import {InputNumber, InputNumberValueChangeEvent} from "primereact/inputnumber";
@@ -11,12 +10,13 @@ import {Button} from "primereact/button";
 import {OverlayPanel} from "primereact/overlaypanel";
 import Chord from '@tombatossals/react-chords/lib/Chord';
 import Guitar from '@tombatossals/chords-db/lib/guitar.json';
+import {useTemachpediaState} from "../../../zustand/store.ts";
+import {useParams} from "react-router-dom";
 
-export interface SongProps {
-  song: Lyric
-}
+const Song: FC = () => {
 
-const Song: FC<SongProps> = ({song}) => {
+    const {id} = useParams();
+    const song = useTemachpediaState((state) => state.lyrics.find(value => value.id === parseInt(id || '')));
 
     const [semitones, setSemitones] = useState(0);
     const [instrumentName, setInstrumentName] = useState(null);

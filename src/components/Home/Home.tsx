@@ -2,12 +2,16 @@ import {FC} from 'react';
 import {Card} from "primereact/card";
 import {Button} from "primereact/button";
 import {useNavigate} from "react-router-dom";
+import {useTemachpediaState} from "../../zustand/store.ts";
 
 
 interface HomeProps {
 }
 
 const Home: FC<HomeProps> = () => {
+
+  let futureWork = useTemachpediaState((state) => state.futureWork);
+
   const navigate = useNavigate();
   const handleNavigateToURL = (url: string) => {
     navigate(url);
@@ -68,8 +72,10 @@ const Home: FC<HomeProps> = () => {
               ></span>
               </div>
               <div>
-                Adentrate en <Button label="el santuario del conocimiento" text outlined onClick={() => handleNavigateToURL('/library')}
-                                     tooltip="Biblioteca de los compas" tooltipOptions={{showDelay: 1000, hideDelay: 300}}/>
+                Adentrate en <Button label="el santuario del conocimiento" text outlined
+                                     onClick={() => handleNavigateToURL('/library')}
+                                     tooltip="Biblioteca de los compas"
+                                     tooltipOptions={{showDelay: 1000, hideDelay: 300}}/>
                 <span className="pi pi-question-circle"></span>
               </div>
               <div>
@@ -81,18 +87,20 @@ const Home: FC<HomeProps> = () => {
               </div>
             </div>
           </div>
-          <div className="bg-neutral-800 rounded p-4">
-            <h2 className="text-2xl pb-5">Trabajo a futuro</h2>
-            <div className="grid grid-cols-2">
-              <div>
-                Viaje del Héroe&nbsp;<span
-                className="pi pi-question-circle"
-              ></span>
-              </div>
+          {futureWork && (
+            <div className="bg-neutral-800 rounded p-4">
+              <h2 className="text-2xl pb-5">Trabajo a futuro</h2>
+              {futureWork.map((work) => (
+                <div className="grid grid-cols-2">
+                  <div>
+                    {work}&nbsp;
+                  </div>
+                </div>
+              ))}
+              <br/>
+              <br/>
             </div>
-            <br/>
-            <br/>
-          </div>
+          )}
         </div>
       </Card>
     </div>

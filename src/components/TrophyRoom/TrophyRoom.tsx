@@ -4,6 +4,8 @@ import {Card} from "primereact/card";
 import {Chips} from "primereact/chips";
 import {Carousel} from "primereact/carousel";
 import {Button} from "primereact/button";
+import {useTemachpediaState} from "../../zustand/store.ts";
+import {MammothHead} from "../../zustand/types/MammothHead.ts";
 
 interface TrophyRoomProps {
 }
@@ -17,62 +19,9 @@ const TrophyRoom: FC<TrophyRoomProps> = () => {
     'Cambio físico',
   ];
 
-  const heads = [
-    {
-      id: '1000',
-      country: 've',
-      name: 'Alejandro Rodríguez',
-      title: 'Trazos de Resiliencia',
-      description: 'La Historia de Marco Silva desde Florencia',
-      image: 80,
-      age: 26,
-      category: 'Superación personal',
-      quantity: 24,
-      publishDate: new Date('12/19/2023'),
-      isMale: true,
-    },
-    {
-      id: '1001',
-      country: 'us',
-      name: 'Eliah González',
-      description: 'La Melodía de Javier Morales un recién graduado de Juilliard',
-      image: 81,
-      age: 22,
-      category: 'Estudio',
-      quantity: 61,
-      publishDate: new Date('12/19/2023'),
-      title: 'Caminos Resonantes',
-      isMale: true,
-    },
-    {
-      id: '1002',
-      country: 'mx',
-      name: 'Francisco Sarabia',
-      title: 'Decimotercera empresa',
-      description: '¿Cómo pasé de depresión a tener 13 empresas? Aquí te lo cuento',
-      image: 12,
-      age: 31,
-      category: 'Negocios',
-      quantity: 2,
-      publishDate: new Date('12/19/2023'),
-      isMale: true,
-    },
-    {
-      id: '1006',
-      country: 'co',
-      name: 'Lavue Nota',
-      title: 'Boda',
-      description: 'Primera boda de pareja de temacheros. El temach asistió a la boda.',
-      image: 22,
-      age: 29,
-      category: 'Relaciones',
-      quantity: 2,
-      publishDate: new Date('12/19/2023'),
-      isMale: false,
-    },
-  ];
+  const heads = useTemachpediaState((state) => state.heads);
 
-  const headsTemplate = (head) => (
+  const headsTemplate = (head: MammothHead) => (
     <div className="m-2 py-8 px-4 grid grid-cols-2 gap-2 bg-neutral-700 rounded-3xl">
       <div className="relative">
         <img
