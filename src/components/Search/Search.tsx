@@ -3,15 +3,11 @@ import {Card} from "primereact/card";
 import {Toast} from "primereact/toast";
 import {InputText} from "primereact/inputtext";
 import {Button} from "primereact/button";
-import {Paginator} from "primereact/paginator";
+import {Paginator, PaginatorPageChangeEvent} from "primereact/paginator";
 import {useTemachpediaState} from "../../zustand/store.ts";
 import axios from "axios";
 
-
-interface SearchProps {
-}
-
-const Search: FC<SearchProps> = () => {
+const Search: FC = () => {
   const toast = useRef<Toast>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -39,7 +35,7 @@ const Search: FC<SearchProps> = () => {
     }
   }
 
-  const onPageChange = (event) => {
+  const onPageChange = (event: PaginatorPageChangeEvent) => {
     setFirst(event.first);
     setRows(event.rows);
   };
@@ -55,6 +51,11 @@ const Search: FC<SearchProps> = () => {
                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)} minLength={5}
                    maxLength={35}
                    disabled={isLoading}
+                   onKeyDown={(e) => {
+                     if (e.key === 'Enter') {
+                       searchForText();
+                     }
+                   }}
         />
         </span>
         <span>
