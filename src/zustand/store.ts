@@ -8,9 +8,12 @@ export interface TemachpediaState {
   futureWork: string[],
   faqs: Faq[],
   heads: MammothHead[],
+  setHeads: (heads: MammothHead[]) => void,
   matches: Transcription[],
   setMatches: (matches: Transcription[]) => void,
-  lyrics: Lyric[]
+  lyrics: Lyric[],
+  auth: { name?: string, token?: string },
+  setAuth: (name: string, token: string) => void,
 }
 
 export const useTemachpediaState = create<TemachpediaState>((set, get): TemachpediaState => {
@@ -29,67 +32,17 @@ export const useTemachpediaState = create<TemachpediaState>((set, get): Temachpe
             fuente: 'https://www.youtube.com/live/4zvABlShz5w?si=B9gtOrq6JM7ZDXX_&t=860',
           },
         ],
-        heads: [
-          {
-            id: '1000',
-            country: 've',
-            name: 'Alejandro Rodríguez',
-            title: 'Trazos de Resiliencia',
-            description: 'La Historia de Marco Silva desde Florencia',
-            image: 80,
-            age: 26,
-            category: 'Superación personal',
-            quantity: 24,
-            publishDate: new Date('12/19/2023'),
-            isMale: true,
-          },
-          {
-            id: '1001',
-            country: 'us',
-            name: 'Eliah González',
-            description: 'La Melodía de Javier Morales un recién graduado de Juilliard',
-            image: 81,
-            age: 22,
-            category: 'Estudio',
-            quantity: 61,
-            publishDate: new Date('12/19/2023'),
-            title: 'Caminos Resonantes',
-            isMale: true,
-          },
-          {
-            id: '1002',
-            country: 'mx',
-            name: 'Francisco Sarabia',
-            title: 'Decimotercera empresa',
-            description: '¿Cómo pasé de depresión a tener 13 empresas? Aquí te lo cuento',
-            image: 12,
-            age: 31,
-            category: 'Negocios',
-            quantity: 2,
-            publishDate: new Date('12/19/2023'),
-            isMale: true,
-          },
-          {
-            id: '1006',
-            country: 'co',
-            name: 'Lavue Nota',
-            title: 'Boda',
-            description: 'Primera boda de pareja de temacheros. El temach asistió a la boda.',
-            image: 22,
-            age: 29,
-            category: 'Relaciones',
-            quantity: 2,
-            publishDate: new Date('12/19/2023'),
-            isMale: false,
-          },
-        ],
+        heads: [],
+        setHeads: (heads: MammothHead[]) => {
+          set((state) => ({...state, heads}))
+        },
         matches: [],
         setMatches: (matches: Transcription[]) => {
           set((state) => ({...state, matches}))
         },
         lyrics: [
           {
-            id:1,
+            id: 1,
             title: 'Cuestión de Vida',
             authors: ['White Shit State'],
             video: {
@@ -855,6 +808,10 @@ export const useTemachpediaState = create<TemachpediaState>((set, get): Temachpe
             ],
           },
         ],
+        auth: {name: '', token: ''},
+        setAuth: (name: string, token: string) => {
+          set((state) => ({...state, auth: {name, token}}));
+        }
       }
     )
   }

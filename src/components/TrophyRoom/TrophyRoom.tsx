@@ -1,4 +1,4 @@
-import {FC} from 'react';
+import {FC, useEffect} from 'react';
 import {TrophyRoomWrapper} from './TrophyRoom.styled';
 import {Card} from "primereact/card";
 import {Chips} from "primereact/chips";
@@ -6,6 +6,7 @@ import {Carousel} from "primereact/carousel";
 import {Button} from "primereact/button";
 import {useTemachpediaState} from "../../zustand/store.ts";
 import {MammothHead} from "../../zustand/types/MammothHead.ts";
+import axios from "axios";
 
 interface TrophyRoomProps {
 }
@@ -20,6 +21,18 @@ const TrophyRoom: FC<TrophyRoomProps> = () => {
   ];
 
   const heads = useTemachpediaState((state) => state.heads);
+  const setHeads = useTemachpediaState((state) => state.setHeads);
+  const auth = useTemachpediaState((state) => state.auth);
+
+  useEffect(() => {
+    axios.get('https://localhost/api/achievements', {headers: {'Authorization': 'Bearer ' + auth.token}}).then(response => {
+      const achievements: MammothHead[] = response.data;
+      if (achievements && achievements.length > 0) {
+        setHeads(achievements);
+      }
+    })
+  })
+
 
   const headsTemplate = (head: MammothHead) => (
     <div className="m-2 py-8 px-4 grid grid-cols-2 gap-2 bg-neutral-700 rounded-3xl">

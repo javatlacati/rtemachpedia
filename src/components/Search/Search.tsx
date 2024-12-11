@@ -23,6 +23,7 @@ const Search: FC = () => {
       setIsLoading(true);
       axios.post('http://localhost:8081/api/video-transcription', {title: searchQuery})
         .then(response => {
+          setFirst(0);
           setMatches(response.data || []);
           setIsLoading(false);
         })
