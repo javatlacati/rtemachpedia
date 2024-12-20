@@ -10,16 +10,14 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {useTemachpediaState} from "../../zustand/store.ts";
 
-interface SignInProps {
-}
-
-const SignIn: FC<SignInProps> = () => {
+const SignIn: FC = () => {
   const navigate = useNavigate();
   const handleNavigateToURL = (url: string) => {
     navigate(url);
   };
 
-  const {token} = useTemachpediaState((state) => state.auth);
+  //const {token} = useTemachpediaState((state) => state.auth);
+  const token = localStorage.getItem('token')
   const setAuth = useTemachpediaState((state) => state.setAuth);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

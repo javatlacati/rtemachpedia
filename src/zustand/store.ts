@@ -5,6 +5,7 @@ import {Transcription} from "./types/Transcription.ts";
 import {Lyric} from "./types/Lyric.ts";
 import {CellLocation} from "./types/CellLocation.ts";
 import {SelectItemGroupThreeValues} from "./types/SelectItemGroupThreeValues.ts";
+import {Book} from "./types/Book.ts";
 
 export interface TemachpediaState {
   futureWork: string[],
@@ -20,6 +21,8 @@ export interface TemachpediaState {
   setLocations: (locations: CellLocation[]) => void,
   groupedCities: SelectItemGroupThreeValues[],
   setGroupedCities: (groupedCities: SelectItemGroupThreeValues[]) => void,
+  books: Book[],
+  setBooks: (books: Book[]) => void,
 }
 
 export const useTemachpediaState = create<TemachpediaState>((set, get): TemachpediaState => {
@@ -825,6 +828,10 @@ export const useTemachpediaState = create<TemachpediaState>((set, get): Temachpe
         groupedCities: [],
         setGroupedCities: (groupedCities: SelectItemGroupThreeValues[]) => {
           set((state) => ({...state, groupedCities}))
+        },
+        books: [],
+        setBooks: (books: Book[]) => {
+          set((state) => ({...state, books}))
         }
       }
     )

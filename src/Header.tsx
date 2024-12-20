@@ -1,9 +1,8 @@
 import {Link, Outlet, useLocation} from "react-router-dom";
-import {useTemachpediaState} from "./zustand/store.ts";
 
 export function Header() {
   const {pathname} = useLocation();
-  const name = useTemachpediaState((state) => state?.auth?.name);
+  const name = localStorage.getItem('name') || 'invitado'//useTemachpediaState((state) => state?.auth?.name);
   return (<>
     {pathname !== "/" ? (
         <>

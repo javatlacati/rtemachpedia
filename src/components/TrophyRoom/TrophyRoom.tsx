@@ -9,10 +9,7 @@ import {MammothHead} from "../../zustand/types/MammothHead.ts";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
-interface TrophyRoomProps {
-}
-
-const TrophyRoom: FC<TrophyRoomProps> = () => {
+const TrophyRoom: FC = () => {
   const categories: string[] = [
     'Superación personal',
     'Negocios',
@@ -23,7 +20,7 @@ const TrophyRoom: FC<TrophyRoomProps> = () => {
 
   const heads = useTemachpediaState((state) => state.heads);
   const setHeads = useTemachpediaState((state) => state.setHeads);
-  const auth = useTemachpediaState((state) => state.auth);
+  const token = localStorage.getItem('token')
 
   const navigate = useNavigate();
   const handleNavigateToURL = (url: string) => {
@@ -31,7 +28,7 @@ const TrophyRoom: FC<TrophyRoomProps> = () => {
   };
 
   useEffect(() => {
-    axios.get('https://localhost/api/achievements', {headers: {'Authorization': 'Bearer ' + auth.token}}).then(response => {
+    axios.get('https://localhost/api/achievements', {headers: {'Authorization': 'Bearer ' + token}}).then(response => {
       const achievements: MammothHead[] = response.data;
       if (achievements && achievements.length > 0) {
         setHeads(achievements);
@@ -49,7 +46,7 @@ const TrophyRoom: FC<TrophyRoomProps> = () => {
         alert('Hubo un error en la carga de datos del usuario. Por favor intente nuevamente.');
       }
     })
-  })
+  }, [])
 
 
   const headsTemplate = (head: MammothHead) => (

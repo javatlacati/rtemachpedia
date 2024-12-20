@@ -15,9 +15,6 @@ import axios from "axios";
 import {SelectItemThreeValuesImpl} from "../../../zustand/types/SelectItemThreeValues.ts";
 import {useNavigate} from "react-router-dom";
 
-interface CompasDeHierroProps {
-}
-
 const SetViewOnClick = ({coords}: { coords: LatLngExpression }) => {
   const map = useMap();
   map.panTo(coords);
@@ -25,8 +22,8 @@ const SetViewOnClick = ({coords}: { coords: LatLngExpression }) => {
   return null;
 }
 
-const CompasDeHierro: FC<CompasDeHierroProps> = () => {
-  const {token} = useTemachpediaState((state) => state.auth);
+const CompasDeHierro: FC = () => {
+  const token = localStorage.getItem('token')
   const groupedCities: SelectItemGroupThreeValues[] = useTemachpediaState((state) => state.groupedCities);
   const setGroupedCities = useTemachpediaState((state) => state.setGroupedCities);
 
