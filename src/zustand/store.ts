@@ -3,6 +3,8 @@ import {Faq} from "./types/faq.ts";
 import {MammothHead} from "./types/MammothHead.ts";
 import {Transcription} from "./types/Transcription.ts";
 import {Lyric} from "./types/Lyric.ts";
+import {CellLocation} from "./types/CellLocation.ts";
+import {SelectItemGroupThreeValues} from "./types/SelectItemGroupThreeValues.ts";
 
 export interface TemachpediaState {
   futureWork: string[],
@@ -14,6 +16,10 @@ export interface TemachpediaState {
   lyrics: Lyric[],
   auth: { name?: string, token?: string },
   setAuth: (name: string, token: string) => void,
+  locations: CellLocation[],
+  setLocations: (locations: CellLocation[]) => void,
+  groupedCities: SelectItemGroupThreeValues[],
+  setGroupedCities: (groupedCities: SelectItemGroupThreeValues[]) => void,
 }
 
 export const useTemachpediaState = create<TemachpediaState>((set, get): TemachpediaState => {
@@ -811,6 +817,14 @@ export const useTemachpediaState = create<TemachpediaState>((set, get): Temachpe
         auth: {name: '', token: ''},
         setAuth: (name: string, token: string) => {
           set((state) => ({...state, auth: {name, token}}));
+        },
+        locations: [],
+        setLocations: (locations: CellLocation[]) => {
+          set((state) => ({...state, locations}));
+        },
+        groupedCities: [],
+        setGroupedCities: (groupedCities: SelectItemGroupThreeValues[]) => {
+          set((state) => ({...state, groupedCities}))
         }
       }
     )
