@@ -7,6 +7,7 @@ import {Button} from "primereact/button";
 import {useTemachpediaState} from "../../zustand/store.ts";
 import {MammothHead} from "../../zustand/types/MammothHead.ts";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 interface TrophyRoomProps {
 }
@@ -24,11 +25,28 @@ const TrophyRoom: FC<TrophyRoomProps> = () => {
   const setHeads = useTemachpediaState((state) => state.setHeads);
   const auth = useTemachpediaState((state) => state.auth);
 
+  const navigate = useNavigate();
+  const handleNavigateToURL = (url: string) => {
+    navigate(url);
+  };
+
   useEffect(() => {
     axios.get('https://localhost/api/achievements', {headers: {'Authorization': 'Bearer ' + auth.token}}).then(response => {
       const achievements: MammothHead[] = response.data;
       if (achievements && achievements.length > 0) {
         setHeads(achievements);
+      }
+    }).catch(error => {
+      if (error.response && error.response.status === 401) {
+        // Token expired, remove it from localstorage and prompt user to log in again
+        localStorage.removeItem('token');
+        localStorage.setItem('name', 'invitado');
+        alert('Su sesión ha expirado. Por favor, inicie sesión de nuevo.');
+        // Redirect user to the login page or prompt for login credentials
+        handleNavigateToURL('/');
+      } else {
+        console.log(error);
+        alert('Hubo un error en la carga de datos del usuario. Por favor intente nuevamente.');
       }
     })
   })
