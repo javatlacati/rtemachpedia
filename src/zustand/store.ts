@@ -25,7 +25,7 @@ export interface TemachpediaState {
   setBooks: (books: Book[]) => void,
 }
 
-export const useTemachpediaState = create<TemachpediaState>((set, get): TemachpediaState => {
+export const useTemachpediaState = create<TemachpediaState>((set): TemachpediaState => {
     return (
       {
         futureWork: ['Viaje del Héroe', 'Lista negra'],

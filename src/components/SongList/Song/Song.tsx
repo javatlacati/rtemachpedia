@@ -8,6 +8,7 @@ import PianoKeyboard from "../PianoKeyboard/PianoKeyboard.lazy.tsx";
 import {Dropdown} from "primereact/dropdown";
 import {Button} from "primereact/button";
 import {OverlayPanel} from "primereact/overlaypanel";
+// @ts-ignore
 import Chord from '@tombatossals/react-chords/lib/Chord';
 import Guitar from '@tombatossals/chords-db/lib/guitar.json';
 import {useTemachpediaState} from "../../../zustand/store.ts";
@@ -96,6 +97,7 @@ const Song: FC = () => {
         type = type.replace('#', "b");
       }
 
+      // @ts-ignore
       const tonicColecction = Guitar.chords[`${tonic.replace(
         "#",
         "sharp"

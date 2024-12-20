@@ -165,7 +165,7 @@ const CompasDeHierro: FC = () => {
             onChange={(e) => {
               const aCity = groupedCities.flatMap(group => group.items).find(value => value.label == e.value) as SelectItemThreeValuesImpl | null;
               if (aCity)
-                setSelectedCity(aCity);
+                setSelectedCity(aCity as any as City);
               muestraUbicacion()
             }}
             options={groupedCities}

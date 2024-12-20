@@ -10,13 +10,13 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
 const TrophyRoom: FC = () => {
-  const categories: string[] = [
-    'Superación personal',
-    'Negocios',
-    'Estudio',
-    'Relaciones',
-    'Cambio físico',
-  ];
+  // const categories: string[] = [
+  //   'Superación personal',
+  //   'Negocios',
+  //   'Estudio',
+  //   'Relaciones',
+  //   'Cambio físico',
+  // ];
 
   const heads = useTemachpediaState((state) => state.heads);
   const setHeads = useTemachpediaState((state) => state.setHeads);

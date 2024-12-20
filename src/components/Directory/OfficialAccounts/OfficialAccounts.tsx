@@ -1,12 +1,8 @@
-import React, {FC} from 'react';
+import {FC} from 'react';
 import {Card} from "primereact/card";
 import {Image} from "primereact/image";
 
-
-interface OfficialAccountsProps {
-}
-
-const OfficialAccounts: FC<OfficialAccountsProps> = () => (
+const OfficialAccounts: FC = () => (
   <Card header="Cuentas oficiales">
     <div className="md:flex md:justify-center">
       <a
