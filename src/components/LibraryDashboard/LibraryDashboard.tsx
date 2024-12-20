@@ -58,11 +58,16 @@ const LibraryDashboard: FC = () => {
   }
 
   function authorsTemplate(rowData: { authors: Author[] }) {
-    console.log(rowData);
     return (
       rowData.authors.map((author) => (
         <span key={`author_${author.id}`}>{author.name}</span>
       ))
+    )
+  }
+
+  function downloadTemplate(book: Book) {
+    return (
+      <a href={book.downloadUrl} target="_blank" download>Descargar</a>
     )
   }
 
@@ -91,7 +96,7 @@ const LibraryDashboard: FC = () => {
           <DataTable value={books}>
             <Column field="title" header="Título"/>
             <Column field="authors" header="Autor" body={authorsTemplate}/>
-            <Column field="downloadUrl" header="url"/>
+            <Column field="downloadUrl" header="url" body={downloadTemplate}/>
           </DataTable>
         )
         }
