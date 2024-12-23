@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React, {JSX, lazy, Suspense} from 'react';
 
 const LazyHome = lazy(() => import('./Home'));
 
