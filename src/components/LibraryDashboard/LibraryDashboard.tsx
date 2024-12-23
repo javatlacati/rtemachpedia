@@ -7,54 +7,27 @@ import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
 import {Author, Book} from "../../zustand/types/Book.ts";
 import {useTemachpediaState} from "../../zustand/store.ts";
-import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import apiCall, {redirectOnApiError} from "../../util/util.ts";
 
 const LibraryDashboard: FC = () => {
-  const token = localStorage.getItem('token')
-  const books: Book[] = useTemachpediaState(state => state.books); // Para almacenar los libros obtenidos
-  const setBooks = useTemachpediaState(state => state.setBooks);
   const [searchTitle, setSearchTitle] = useState('');
   const [searchAuthor, setSearchAuthor] = useState('');
 
   const navigate = useNavigate();
-  const handleNavigateToURL = (url: string) => {
-    navigate(url);
-  };
+
+  const books: Book[] = useTemachpediaState(state => state.books); // Para almacenar los libros obtenidos
+  const setBooks = useTemachpediaState(state => state.setBooks);
+
 
   function searchByTitle() {
-    const lowerCaseTitle = encodeURI(searchTitle.toLowerCase());
-    axios.get(`http://localhost/api/booksbytitle?title=${lowerCaseTitle}`, {headers: {'Authorization': 'Bearer ' + token}}).then(filteredBooks => setBooks(filteredBooks.data)).catch(error => {
-      if (error.response && error.response.status === 401) {
-        // Token expired, remove it from localstorage and prompt user to log in again
-        localStorage.removeItem('token');
-        localStorage.setItem('name', 'invitado');
-        alert('Su sesión ha expirado. Por favor, inicie sesión de nuevo.');
-        // Redirect user to the login page or prompt for login credentials
-        handleNavigateToURL('/');
-      } else {
-        console.log(error);
-        alert('Hubo un error en la carga de datos del usuario. Por favor intente nuevamente.');
-      }
-    })
-
+    const lowerCaseTitle = searchTitle.toLowerCase();
+    redirectOnApiError(apiCall('booksbytitle', ['title', lowerCaseTitle]).then(filteredBooks => setBooks(filteredBooks.data)), navigate)
   }
 
   function searchByAuthor() {
-    const lowerCaseAuthor = encodeURI(searchAuthor.toLowerCase());
-    axios.get(`https://localhost/api/booksbyauthor?author_name=${lowerCaseAuthor}`, {headers: {'Authorization': 'Bearer ' + token}}).then(filteredBooks => setBooks(filteredBooks.data)).catch(error => {
-      if (error.response && error.response.status === 401) {
-        // Token expired, remove it from localstorage and prompt user to log in again
-        localStorage.removeItem('token');
-        localStorage.setItem('name', 'invitado');
-        alert('Su sesión ha expirado. Por favor, inicie sesión de nuevo.');
-        // Redirect user to the login page or prompt for login credentials
-        handleNavigateToURL('/');
-      } else {
-        console.log(error);
-        alert('Hubo un error en la carga de datos del usuario. Por favor intente nuevamente.');
-      }
-    })
+    const lowerCaseAuthor = searchAuthor.toLowerCase();
+    redirectOnApiError(apiCall('booksbyauthor', ['author_name', lowerCaseAuthor]).then(filteredBooks => setBooks(filteredBooks.data)), navigate);
   }
 
   function authorsTemplate(rowData: { authors: Author[] }) {
@@ -67,7 +40,7 @@ const LibraryDashboard: FC = () => {
 
   function downloadTemplate(book: Book) {
     return (
-      <a href={book.downloadUrl} target="_blank" download>Descargar</a>
+      <a href={book.downloadUrl} target="_blank" download aria-label={`Descarga el libro ${book.title}`}>Descargar</a>
     )
   }
 

@@ -12,15 +12,16 @@ import {useTemachpediaState} from "../../zustand/store.ts";
 
 const SignIn: FC = () => {
   const navigate = useNavigate();
+  const setAuth = useTemachpediaState((state) => state.setAuth);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const handleNavigateToURL = (url: string) => {
     navigate(url);
   };
 
   //const {token} = useTemachpediaState((state) => state.auth);
   const token = localStorage.getItem('token')
-  const setAuth = useTemachpediaState((state) => state.setAuth);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
   function getUserDetails(token: string) {
     if (localStorage.getItem('token')) {

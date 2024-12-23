@@ -5,30 +5,18 @@ import {Toast} from "primereact/toast";
 import {ListBox} from "primereact/listbox";
 import {ContextMenu} from "primereact/contextmenu";
 import {MenuItem} from "primereact/menuitem";
-import {MapContainer, Marker, Popup, TileLayer, useMap} from "react-leaflet";
+import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import {Icon, LatLngExpression} from "leaflet";
 import {CellLocation} from "../../../zustand/types/CellLocation.ts";
 import {SelectItemGroupThreeValues} from "../../../zustand/types/SelectItemGroupThreeValues.ts";
 import {City} from "../../../zustand/types/city.ts";
 import {useTemachpediaState} from "../../../zustand/store.ts";
-import axios from "axios";
 import {SelectItemThreeValuesImpl} from "../../../zustand/types/SelectItemThreeValues.ts";
 import {useNavigate} from "react-router-dom";
-
-const SetViewOnClick = ({coords}: { coords: LatLngExpression }) => {
-  const map = useMap();
-  map.panTo(coords);
-
-  return null;
-}
+import SetViewOnClick from "../../SongList/Song/SetViewOnClick.ts";
+import apiCall, {redirectOnApiError} from "../../../util/util.ts";
 
 const CompasDeHierro: FC = () => {
-  const token = localStorage.getItem('token')
-  const groupedCities: SelectItemGroupThreeValues[] = useTemachpediaState((state) => state.groupedCities);
-  const setGroupedCities = useTemachpediaState((state) => state.setGroupedCities);
-
-  const locations: CellLocation[] = useTemachpediaState((state) => state.locations);
-  const setLocations = useTemachpediaState((state) => state.setLocations);
   const [selectedCity, setSelectedCity] = useState<City | null>()
   const cm = useRef<ContextMenu>(null);
   const toast = useRef<Toast>(null);
@@ -36,37 +24,29 @@ const CompasDeHierro: FC = () => {
   const [loading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
-  const handleNavigateToURL = (url: string) => {
-    navigate(url);
-  };
+
+  const groupedCities: SelectItemGroupThreeValues[] = useTemachpediaState((state) => state.groupedCities);
+  const setGroupedCities = useTemachpediaState((state) => state.setGroupedCities);
+
+  const locations: CellLocation[] = useTemachpediaState((state) => state.locations);
+  const setLocations = useTemachpediaState((state) => state.setLocations);
+
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get('http://localhost/api/grouped_cities', {headers: {'Authorization': 'Bearer ' + token}}).then(response => {
+    redirectOnApiError(apiCall('grouped_cities', navigate).then(response => {
       const cities: SelectItemGroupThreeValues[] = response.data;
       if (cities && cities.length > 0) {
         setGroupedCities(cities);
       }
     }).then(() => {
-      axios.get('http://localhost/api/cell_locations', {headers: {'Authorization': 'Bearer ' + token}}).then(response => {
+      apiCall('cell_locations', navigate).then(response => {
         const cellLocations: CellLocation[] = response.data;
         if (cellLocations && cellLocations.length > 0) {
           setLocations(cellLocations);
         }
       }).then(() => setIsLoading(false));
-    }).catch(error => {
-      if (error.response && error.response.status === 401) {
-        // Token expired, remove it from localstorage and prompt user to log in again
-        localStorage.removeItem('token');
-        localStorage.setItem('name', 'invitado');
-        alert('Su sesión ha expirado. Por favor, inicie sesión de nuevo.');
-        // Redirect user to the login page or prompt for login credentials
-        handleNavigateToURL('/');
-      } else {
-        console.log(error);
-        alert('Hubo un error en la carga de datos del usuario. Por favor intente nuevamente.');
-      }
-    })
+    }), navigate)
   }, [])
 
   const redes: MenuItem[] = [

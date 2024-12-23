@@ -6,46 +6,24 @@ import {Carousel} from "primereact/carousel";
 import {Button} from "primereact/button";
 import {useTemachpediaState} from "../../zustand/store.ts";
 import {MammothHead} from "../../zustand/types/MammothHead.ts";
-import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import apiCall, {redirectOnApiError} from "../../util/util.ts";
 
 const TrophyRoom: FC = () => {
-  // const categories: string[] = [
-  //   'Superación personal',
-  //   'Negocios',
-  //   'Estudio',
-  //   'Relaciones',
-  //   'Cambio físico',
-  // ];
+
 
   const heads = useTemachpediaState((state) => state.heads);
   const setHeads = useTemachpediaState((state) => state.setHeads);
-  const token = localStorage.getItem('token')
 
   const navigate = useNavigate();
-  const handleNavigateToURL = (url: string) => {
-    navigate(url);
-  };
 
   useEffect(() => {
-    axios.get('https://localhost/api/achievements', {headers: {'Authorization': 'Bearer ' + token}}).then(response => {
+    redirectOnApiError(apiCall('achievements').then(response => {
       const achievements: MammothHead[] = response.data;
       if (achievements && achievements.length > 0) {
         setHeads(achievements);
       }
-    }).catch(error => {
-      if (error.response && error.response.status === 401) {
-        // Token expired, remove it from localstorage and prompt user to log in again
-        localStorage.removeItem('token');
-        localStorage.setItem('name', 'invitado');
-        alert('Su sesión ha expirado. Por favor, inicie sesión de nuevo.');
-        // Redirect user to the login page or prompt for login credentials
-        handleNavigateToURL('/');
-      } else {
-        console.log(error);
-        alert('Hubo un error en la carga de datos del usuario. Por favor intente nuevamente.');
-      }
-    })
+    }), navigate)
   }, [])
 
 

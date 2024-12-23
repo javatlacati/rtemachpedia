@@ -17,7 +17,6 @@ import {useParams} from "react-router-dom";
 const Song: FC = () => {
 
     const {id} = useParams();
-    const song = useTemachpediaState((state) => state.lyrics.find(value => value.id === parseInt(id || '')));
 
     const [semitones, setSemitones] = useState(0);
     const [instrumentName, setInstrumentName] = useState(null);
@@ -25,6 +24,7 @@ const Song: FC = () => {
 
     const [activeNotes, setActiveNotes] = useState({});
     const [currentGuitarChord, setCurrentGuitarChord] = useState(null);
+    const song = useTemachpediaState((state) => state.lyrics.find(value => value.id === parseInt(id || '')));
     const instruments = [
       {name: 'Piano', value: 'piano'},
       {name: 'Guitar', value: 'guitar'},
