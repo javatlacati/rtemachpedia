@@ -9,6 +9,7 @@ import {Image} from "primereact/image";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {useTemachpediaState} from "../../zustand/store.ts";
+import apiCall, {redirectOnApiError} from "../../util/util.ts";
 
 const SignIn: FC = () => {
   const navigate = useNavigate();
@@ -27,28 +28,16 @@ const SignIn: FC = () => {
     if (localStorage.getItem('token')) {
       handleNavigateToURL('/home');
     } else {
-      axios.get('http://localhost/api/user/', {headers: {'Authorization': 'Bearer ' + token}}).then(response => {
+      redirectOnApiError(apiCall('user').then(response => {
         const name = response.data.name;
-        console.log(token)
-        alert(token)
+        // console.log(token)
+        // alert(token)
         setAuth(name || '', token || '')
         // Store the token in localstorage
         localStorage.setItem('token', token);
         localStorage.setItem('name', name);
         handleNavigateToURL('/home');
-      }).catch(error => {
-        if (error.response && error.response.status === 401) {
-          // Token expired, remove it from localstorage and prompt user to log in again
-          localStorage.removeItem('token');
-          localStorage.setItem('name', 'invitado');
-          alert('Su sesión ha expirado. Por favor, inicie sesión de nuevo.');
-          // Redirect user to the login page or prompt for login credentials
-          handleNavigateToURL('/');
-        } else {
-          console.log(error);
-          alert('Hubo un error en la carga de datos del usuario. Por favor intente nuevamente.');
-        }
-      })
+      }), navigate);
     }
   }
 

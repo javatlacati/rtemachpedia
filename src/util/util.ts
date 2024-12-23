@@ -1,10 +1,11 @@
 import axios, {AxiosResponse} from "axios";
 import {NavigateFunction} from "react-router-dom";
 
+const API_URL = 'http://localhost'
 
 export function constructUrl(params: Record<string, any> | undefined, url: string) {
   const parameterString = Object.entries(params || {}).map(([key, value]) => `${key}=${encodeURI(value)}`).join('&') || '';
-  return `http://localhost/api/${url}${params ? '?' : ''}${parameterString}`;
+  return `${API_URL}/api/${url}${params ? '?' : ''}${parameterString}`;
 }
 
 export default function apiCall(url: string, params?: Record<string, any>) {
