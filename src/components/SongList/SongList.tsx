@@ -3,10 +3,7 @@ import {SongListWrapper} from './SongList.styled';
 import {useTemachpediaState} from "../../zustand/store.ts";
 import {Link} from "react-router-dom";
 
-interface SongListProps {
-}
-
-const SongList: FC<SongListProps> = () => {
+const SongList: FC = () => {
   const lyrics = useTemachpediaState((state) => state.lyrics);
   return (
     <SongListWrapper>

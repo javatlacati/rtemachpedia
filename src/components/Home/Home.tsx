@@ -4,13 +4,9 @@ import {Button} from "primereact/button";
 import {useNavigate} from "react-router-dom";
 import {useTemachpediaState} from "../../zustand/store.ts";
 
+const Home: FC = () => {
 
-interface HomeProps {
-}
-
-const Home: FC<HomeProps> = () => {
-
-  let futureWork = useTemachpediaState((state) => state.futureWork);
+  const futureWork = useTemachpediaState((state) => state.futureWork);
 
   const navigate = useNavigate();
   const handleNavigateToURL = (url: string) => {
