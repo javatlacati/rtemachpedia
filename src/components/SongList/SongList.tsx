@@ -1,10 +1,10 @@
 import {FC} from 'react';
 import {SongListWrapper} from './SongList.styled';
-import {useTemachpediaState} from "../../zustand/store.ts";
+import {useTemachpediaStore} from "../../zustand/store.ts";
 import {Link} from "react-router-dom";
 
 const SongList: FC = () => {
-  const lyrics = useTemachpediaState((state) => state.lyrics);
+  const lyrics = useTemachpediaStore((state) => state.lyrics);
   return (
     <SongListWrapper>
       {lyrics.map((song) => (

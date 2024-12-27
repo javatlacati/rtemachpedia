@@ -8,12 +8,12 @@ import {Checkbox} from "primereact/checkbox";
 import {Image} from "primereact/image";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
-import {useTemachpediaState} from "../../zustand/store.ts";
+import {useTemachpediaStore} from "../../zustand/store.ts";
 import apiCall, {redirectOnApiError} from "../../util/util.ts";
 
 const SignIn: FC = () => {
   const navigate = useNavigate();
-  const setAuth = useTemachpediaState((state) => state.setAuth);
+  const setAuth = useTemachpediaStore((state) => state.setAuth);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 

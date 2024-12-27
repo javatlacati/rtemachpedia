@@ -1,9 +1,9 @@
 import {FC} from 'react';
 import {Card} from "primereact/card";
-import {useTemachpediaState} from "../../../zustand/store.ts";
+import {useTemachpediaStore} from "../../../zustand/store.ts";
 
 const MusicPlatforms: FC = () => {
-  const musicPlatforms = useTemachpediaState((state) => state.musicPlatforms);
+  const musicPlatforms = useTemachpediaStore((state) => state.musicPlatforms);
   return (
     <Card header="Artistas Alfa"
           subTitle="La música de muchos de estos artistas ha llegado a los en vivo del Temach">

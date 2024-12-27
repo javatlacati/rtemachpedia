@@ -4,15 +4,15 @@ import {Toast} from "primereact/toast";
 import {InputText} from "primereact/inputtext";
 import {Button} from "primereact/button";
 import {Paginator, PaginatorPageChangeEvent} from "primereact/paginator";
-import {useTemachpediaState} from "../../zustand/store.ts";
+import {useTemachpediaStore} from "../../zustand/store.ts";
 import axios from "axios";
 
 const Search: FC = () => {
   const toast = useRef<Toast>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const matches = useTemachpediaState(state => state.matches);
-  const setMatches = useTemachpediaState(state => state.setMatches);
+  const matches = useTemachpediaStore(state => state.matches);
+  const setMatches = useTemachpediaStore(state => state.setMatches);
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(10);
   const [isLoading, setIsLoading] = useState(false);

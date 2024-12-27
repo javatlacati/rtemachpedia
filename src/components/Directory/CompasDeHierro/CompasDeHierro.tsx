@@ -10,7 +10,7 @@ import {Icon, LatLngExpression} from "leaflet";
 import {CellLocation} from "../../../zustand/types/CellLocation.ts";
 import {SelectItemGroupThreeValues} from "../../../zustand/types/SelectItemGroupThreeValues.ts";
 import {City} from "../../../zustand/types/city.ts";
-import {useTemachpediaState} from "../../../zustand/store.ts";
+import {useTemachpediaStore} from "../../../zustand/store.ts";
 import {SelectItemThreeValuesImpl} from "../../../zustand/types/SelectItemThreeValues.ts";
 import {useNavigate} from "react-router-dom";
 import SetViewOnClick from "../../SongList/Song/SetViewOnClick.ts";
@@ -25,11 +25,11 @@ const CompasDeHierro: FC = () => {
 
   const navigate = useNavigate();
 
-  const groupedCities: SelectItemGroupThreeValues[] = useTemachpediaState((state) => state.groupedCities);
-  const setGroupedCities = useTemachpediaState((state) => state.setGroupedCities);
+  const groupedCities: SelectItemGroupThreeValues[] = useTemachpediaStore((state) => state.groupedCities);
+  const setGroupedCities = useTemachpediaStore((state) => state.setGroupedCities);
 
-  const locations: CellLocation[] = useTemachpediaState((state) => state.locations);
-  const setLocations = useTemachpediaState((state) => state.setLocations);
+  const locations: CellLocation[] = useTemachpediaStore((state) => state.locations);
+  const setLocations = useTemachpediaStore((state) => state.setLocations);
 
 
   useEffect(() => {

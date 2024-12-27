@@ -6,7 +6,7 @@ import {Button} from "primereact/button";
 import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
 import {Author, Book} from "../../zustand/types/Book.ts";
-import {useTemachpediaState} from "../../zustand/store.ts";
+import {useTemachpediaStore} from "../../zustand/store.ts";
 import {useNavigate} from "react-router-dom";
 import apiCall, {redirectOnApiError} from "../../util/util.ts";
 
@@ -16,8 +16,8 @@ const LibraryDashboard: FC = () => {
 
   const navigate = useNavigate();
 
-  const books: Book[] = useTemachpediaState(state => state.books); // Para almacenar los libros obtenidos
-  const setBooks = useTemachpediaState(state => state.setBooks);
+  const books: Book[] = useTemachpediaStore(state => state.books); // Para almacenar los libros obtenidos
+  const setBooks = useTemachpediaStore(state => state.setBooks);
 
 
   function searchByTitle() {

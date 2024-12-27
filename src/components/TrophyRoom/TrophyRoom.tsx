@@ -4,7 +4,7 @@ import {Card} from "primereact/card";
 import {Chips} from "primereact/chips";
 import {Carousel} from "primereact/carousel";
 import {Button} from "primereact/button";
-import {useTemachpediaState} from "../../zustand/store.ts";
+import {useTemachpediaStore} from "../../zustand/store.ts";
 import {MammothHead} from "../../zustand/types/MammothHead.ts";
 import {useNavigate} from "react-router-dom";
 import apiCall, {redirectOnApiError} from "../../util/util.ts";
@@ -12,8 +12,8 @@ import apiCall, {redirectOnApiError} from "../../util/util.ts";
 const TrophyRoom: FC = () => {
 
 
-  const heads = useTemachpediaState((state) => state.heads);
-  const setHeads = useTemachpediaState((state) => state.setHeads);
+  const heads = useTemachpediaStore((state) => state.heads);
+  const setHeads = useTemachpediaStore((state) => state.setHeads);
 
   const navigate = useNavigate();
 

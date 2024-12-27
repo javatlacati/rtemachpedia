@@ -2,11 +2,11 @@ import {FC} from 'react';
 import {Card} from "primereact/card";
 import {Button} from "primereact/button";
 import {useNavigate} from "react-router-dom";
-import {useTemachpediaState} from "../../zustand/store.ts";
+import {useTemachpediaStore} from "../../zustand/store.ts";
 
 const Home: FC = () => {
 
-  const futureWork = useTemachpediaState((state) => state.futureWork);
+  const futureWork = useTemachpediaStore((state) => state.futureWork);
 
   const navigate = useNavigate();
   const handleNavigateToURL = (url: string) => {

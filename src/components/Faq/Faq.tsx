@@ -2,11 +2,11 @@ import {FC, useState} from 'react';
 import {Card} from "primereact/card";
 import {Accordion, AccordionTab} from "primereact/accordion";
 import {Inplace, InplaceContent, InplaceDisplay} from "primereact/inplace";
-import {useTemachpediaState} from "../../zustand/store.ts";
+import {useTemachpediaStore} from "../../zustand/store.ts";
 
 const Faq: FC = () => {
 
-  const faqs = useTemachpediaState((state) => state.faqs) || [];
+  const faqs = useTemachpediaStore((state) => state.faqs) || [];
 
   const [currentFaq] = useState<number | undefined>(undefined);
 

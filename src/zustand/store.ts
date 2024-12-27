@@ -8,26 +8,30 @@ import {SelectItemGroupThreeValues} from "./types/SelectItemGroupThreeValues.ts"
 import {Book} from "./types/Book.ts";
 import {MusicPlatform} from "./types/MusicPlatform.ts";
 
-export interface TemachpediaState {
+type TemachpediaState = {
   futureWork: string[],
   faqs: Faq[],
   heads: MammothHead[],
-  setHeads: (heads: MammothHead[]) => void,
   matches: Transcription[],
-  setMatches: (matches: Transcription[]) => void,
   lyrics: Lyric[],
   auth: { name?: string, token?: string },
-  setAuth: (name: string, token: string) => void,
   locations: CellLocation[],
-  setLocations: (locations: CellLocation[]) => void,
   groupedCities: SelectItemGroupThreeValues[],
-  setGroupedCities: (groupedCities: SelectItemGroupThreeValues[]) => void,
   books: Book[],
-  setBooks: (books: Book[]) => void,
   musicPlatforms: MusicPlatform[],
 }
 
-export const useTemachpediaState = create<TemachpediaState>((set): TemachpediaState => {
+type TemachpediaActions = {
+  setHeads: (heads: MammothHead[]) => void,
+  matches: Transcription[],
+  setMatches: (matches: Transcription[]) => void,
+  setAuth: (name: string, token: string) => void,
+  setLocations: (locations: CellLocation[]) => void,
+  setGroupedCities: (groupedCities: SelectItemGroupThreeValues[]) => void,
+  setBooks: (books: Book[]) => void,
+}
+
+export const useTemachpediaStore = create<TemachpediaState & TemachpediaActions>((set): TemachpediaState & TemachpediaActions => {
     return (
       {
         futureWork: ['Viaje del Héroe', 'Lista negra'],

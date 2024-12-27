@@ -11,7 +11,7 @@ import {OverlayPanel} from "primereact/overlaypanel";
 // @ts-ignore
 import Chord from '@tombatossals/react-chords/lib/Chord';
 import Guitar from '@tombatossals/chords-db/lib/guitar.json';
-import {useTemachpediaState} from "../../../zustand/store.ts";
+import {useTemachpediaStore} from "../../../zustand/store.ts";
 import {useParams} from "react-router-dom";
 
 const Song: FC = () => {
@@ -24,7 +24,7 @@ const Song: FC = () => {
 
     const [activeNotes, setActiveNotes] = useState({});
     const [currentGuitarChord, setCurrentGuitarChord] = useState(null);
-    const song = useTemachpediaState((state) => state.lyrics.find(value => value.id === parseInt(id || '')));
+    const song = useTemachpediaStore((state) => state.lyrics.find(value => value.id === parseInt(id || '')));
     const instruments = [
       {name: 'Piano', value: 'piano'},
       {name: 'Guitar', value: 'guitar'},
