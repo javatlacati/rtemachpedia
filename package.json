@@ -14,7 +14,7 @@
     "@tombatossals/chords-db": "^0.5.1",
     "@tombatossals/react-chords": "^0.2.10",
     "@tonaljs/tonal": "^4.10.0",
-    "axios": "^1.7.9",
+    "axios": "^1.8.2",
     "leaflet": "^1.9.4",
     "primeicons": "^7.0.0",
     "primereact": "^10.8.5",
