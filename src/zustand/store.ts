@@ -34,7 +34,7 @@ type TemachpediaActions = {
 export const useTemachpediaStore = create<TemachpediaState & TemachpediaActions>((set): TemachpediaState & TemachpediaActions => {
     return (
       {
-        futureWork: ['Viaje del Héroe', 'Lista negra'],
+        futureWork: ['Viaje del Héroe', 'Lista negra', 'Roomies de hierro', 'Bolsa de trabajo', 'Mercaderes de hierro'],
         faqs: [
           {
             enunciado: 'Si soy mujer, ¿Puedo ir a los compas de hierro?',
