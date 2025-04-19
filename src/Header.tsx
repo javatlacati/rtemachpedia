@@ -6,8 +6,10 @@ export function Header() {
   return (<>
     {pathname !== "/" ? (
         <>
-          <div className="flex flex-row justify-between"><h1 className="text-4xl font-bold p-3"><Link to="/home">La
-            Temachpedia</Link></h1>{name || 'invitado'}</div>
+          <div className="flex flex-row justify-between md:mx-12">
+            <h1 className="text-4xl font-bold p-3">
+              <Link to="/home">La
+                Temachpedia</Link></h1>{name || 'invitado'}</div>
           <Outlet/>
         </>
       ) :

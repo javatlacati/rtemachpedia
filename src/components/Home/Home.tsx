@@ -13,11 +13,9 @@ const Home: FC = () => {
     navigate(url);
   };
   return (
-    <div>
-
-      <Card>
+      <Card className="md:mx-12">
         <div className="md:mt-96"></div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
           <div className="bg-neutral-800 rounded p-4">
             <h2 className="text-2xl pb-5">¿Qué desea hacer?</h2>
             <div className="grid grid-cols-2">
@@ -99,7 +97,6 @@ const Home: FC = () => {
           )}
         </div>
       </Card>
-    </div>
   );
 };
 
