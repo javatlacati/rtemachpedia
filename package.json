@@ -15,6 +15,8 @@
     "@tombatossals/react-chords": "^0.2.10",
     "@tonaljs/tonal": "^4.10.0",
     "axios": "^1.8.4",
+    "babel-plugin-macros": "^3.1.0",
+    "babel-plugin-styled-components": "^2.1.4",
     "leaflet": "^1.9.4",
     "primeicons": "^7.0.0",
     "primereact": "^10.9.4",
@@ -25,6 +27,7 @@
     "react-player": "^2.16.0",
     "react-router-dom": "^7.4.1",
     "styled-components": "^6.1.13",
+    "twin.macro": "^3.4.1",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
@@ -49,6 +52,12 @@
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.18.2",
     "vite": "^6.2.6"
+  },
+  "babelMacros": {
+    "twin": {
+      "preset": "styled-components",
+      "includeClassNames": true
+    }
   },
   "overrides": {
     "react": {
