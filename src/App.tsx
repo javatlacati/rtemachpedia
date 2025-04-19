@@ -13,6 +13,7 @@ import LibraryDashboard from "./components/LibraryDashboard/LibraryDashboard.laz
 import SignIn from "./components/SignIn/SignIn.lazy.tsx";
 import Song from "./components/SongList/Song/Song.lazy.tsx";
 import {Header} from "./Header.tsx";
+import Church from "./components/Church/Church.lazy.tsx";
 
 function App() {
 
@@ -53,6 +54,10 @@ function App() {
         {
           path: '/library',
           element: <LibraryDashboard/>
+        },
+        {
+          path:"/temple",
+          element: <Church/>
         },
         {
           path: "*",

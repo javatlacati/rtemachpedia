@@ -131,6 +131,23 @@ const Home: FC = () => {
                   <p className="text-gray-400 ml-10 mt-1">Contempla los logros de los grandes guerreros</p>
                 </MissionWrapper>
 
+                <MissionWrapper active={activeQuest === 'temple'} basecolor="yellow"
+                                onMouseEnter={() => handleQuestHover('temple')}
+                                onMouseLeave={() => setActiveQuest(null)}
+                >
+                  <div className="flex items-center">
+                    <span className="text-yellow-500 text-2xl mr-3">✝️</span>
+                    <Button
+                      label="Caballeros templarios"
+                      className="flex-grow text-left font-bold text-yellow-200 p-button-text p-button-lg"
+                      onClick={() => handleNavigateToURL('/temple')}
+                      tooltip="Subsitio cristiano"
+                      tooltipOptions={{showDelay: 1000, hideDelay: 300}}
+                    />
+                  </div>
+                  <p className="text-gray-400 ml-10 mt-1">Descubre el poder de la fe</p>
+                </MissionWrapper>
+
               </div>
             </div>
           </Card>
